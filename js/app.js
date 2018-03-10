@@ -2,19 +2,18 @@
  * Create a list that holds all of your cards
  */
 
-//Selects all the 'array' descendants 'li'
+//'array' descendants 'li'
 const cards = document.querySelectorAll('.deck li');
-//const card_state= ['card','card-open-show','card-match'];
 
-//array of the icons' class
-const card_icon = ['fa fa-diamond', 'fa fa-paper-plane-o', 'fa fa-anchor', 'fa fa-bolt', 'fa fa-cube', 'fa fa-leaf', 'fa fa-bicycle', 'fa fa-bomb',
-    'fa fa-diamond', 'fa fa-paper-plane-o', 'fa fa-anchor', 'fa fa-bolt', 'fa fa-cube', 'fa fa-leaf', 'fa fa-bicycle', 'fa fa-bomb'];
+const card_state = ['card', 'card open show', 'card match'];
 
-//const qty_per_card= 2; 
+const icons = document.querySelectorAll('.deck li i');
 
-//selecting the element with className restart
-//const restart = document.getElementsByClassName('restart');
+const icon_array = [];
 
+icons.forEach(function(icon){
+    icon_array.push(icon.className);
+});
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -24,10 +23,17 @@ const card_icon = ['fa fa-diamond', 'fa fa-paper-plane-o', 'fa fa-anchor', 'fa f
 
 //document.querySelector('.restart').addEventListener("click", flipCardsFacingDown);
 
-//when the windows load flip the cards to face down
+//flip the cards to face down
 window.onload = function flipCardsFacingDown() {
+    shuffle(icon_array);
+    let i = 0;
+    icons.forEach(function (icon) {
+        icon.className = icon_array[i];
+        i++;
+    });
+
     cards.forEach(function (card) {
-        card.className = 'card';
+        card.className = 'card open show';
     });
 }
 
