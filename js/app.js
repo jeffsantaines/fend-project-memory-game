@@ -5,15 +5,16 @@
 //'array' descendants 'li'
 const cards = document.querySelectorAll('.deck li');
 
-const card_state = ['card', 'card open show', 'card match'];
+//possible className for the <li> element are 'card', 'card open show', 'card match'
 
 const icons = document.querySelectorAll('.deck li i');
 
 const icon_array = [];
 
-icons.forEach(function(icon){
+icons.forEach(function (icon) {
     icon_array.push(icon.className);
 });
+
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -21,7 +22,6 @@ icons.forEach(function(icon){
  *   - add each card's HTML to the page
  */
 
-//document.querySelector('.restart').addEventListener("click", flipCardsFacingDown);
 
 //flip the cards to face down
 window.onload = function flipCardsFacingDown() {
@@ -33,7 +33,7 @@ window.onload = function flipCardsFacingDown() {
     });
 
     cards.forEach(function (card) {
-        card.className = 'card open show';
+        card.className = 'card';
     });
 }
 
@@ -51,6 +51,65 @@ function shuffle(array) {
     }
 }
 
+
+let noOfClicks = 0;
+
+//the className of the <i> target element
+let currentIcon = ''; 
+
+//a string that will hold the className of the first <i> element's className
+let previousIcon = '';
+
+//temp holder of the className of the <i> element
+let tempIconHolder = '';
+
+//holds the value of the target <li> which is the card
+let previousTarget = '';
+
+
+document.querySelector('.deck').addEventListener('click', function (evt) {
+
+
+    noOfClicks++;
+
+    //show the card
+    flipCardOpen(evt);
+
+    currentIcon = evt.target.firstElementChild.className; 
+    
+    if (noOfClicks === 2) {
+
+
+        //if previous icon same as new icon then change both classNames to  'card match'
+        //else change previous and new icon classNames to 'card'
+        if (currentIcon == previousIcon) {
+            flipCardMatchFace(evt);
+            flipCardMatchFace(previousTarget);
+            noOfClicks = 0;
+            
+        } else {
+           flipCardDown(evt);
+            flipCardDown(previousTarget)
+            noOfClicks= 0;
+        }
+        //noOfClicks = 0;
+    }
+    previousTarget = evt;
+    previousIcon = currentIcon;
+
+}, false);
+
+function flipCardOpen(evt) {
+    evt.target.className = 'card open show';
+}
+
+function flipCardDown(evt){
+    evt.target.className = 'card';
+}
+
+function flipCardMatchFace(evt){
+    evt.target.className = 'card match';
+}
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
